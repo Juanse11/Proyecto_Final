@@ -18,6 +18,9 @@ app.use(cors())
 
 app.use('/register', registerRoutes)
 app.use('/login', loginRoutes)
+app.use(function (req, res, next) {
+  res.status(404).send({ message: 'Error 404' })
+})
 
 app.listen(3000, () => {
   console.log('Server connected.')

@@ -12,7 +12,9 @@ function jwtSignUser (user) {
 module.exports = {
   async  register (req, res) {
     try {
+      console.log('holasdasdasdasdadasd')
       const user = await User.create(req.body)
+
       res.send({
         user: user.toJSON(),
         token: jwtSignUser(user.toJSON())
@@ -27,23 +29,24 @@ module.exports = {
     try {
       const { email, password } = req.body
       const user = await User.findOne({ email: email })
-      console.log(user)
+
       if (!user) {
         return res.send({
           error: 'The login information was incorrect'
         })
       }
 
-      const isPasswordValid = password === user.password
-      if (!isPasswordValid) {
-        return res.send({
-          error: 'The login information was incorrect'
-        })
-      }
-
-      res.send({
-        user: user.toJSON(),
-        token: jwtSignUser(user.toJSON())
+      user.comparePassword(password, function (_err, isPasswordValid) {
+        if (!isPasswordValid) {
+          return res.send({
+            error: 'The login information was incorrect'
+          })
+        } else {
+          res.send({
+            user: user.toJSON(),
+            token: jwtSignUser(user.toJSON())
+          })
+        }
       })
     } catch (error) {
       res.status(400).send({

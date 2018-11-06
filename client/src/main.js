@@ -3,18 +3,21 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import 'semantic-ui/dist/semantic.min.css'
 import { sync } from 'vuex-router-sync'
 import store from '@/store/store'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import BootstrapVue from 'bootstrap-vue'
 
 Vue.config.productionTip = false
+Vue.use(BootstrapVue)
 
 sync(store, router)
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  store,
-  components: { App },
-  template: '<App/>'
+	el: '#app',
+	router,
+	store,
+	components: { App },
+	template: '<App/>'
 })
