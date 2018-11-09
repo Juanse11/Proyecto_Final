@@ -8,14 +8,11 @@
                 placeholder="Search"
                 aria-label="Search"
             >
-            <div class="container">
-                <ul class="navbar-nav px-3">
-                    <li class="nav-item text-nowrap">
-                        <button class="btn btn-sm btn-outline-secondary">Create a posting</button>
-                    </li>
-                </ul>
-            </div>
-            
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <button class="btn btn-sm btn-outline-secondary">Create a posting</button>
+                </li>
+            </ul>
         </nav>
         <div class="container-fluid">
             <div class="row">
@@ -47,131 +44,55 @@
                     </div>
                 </nav>
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                    <div
-                        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-                    >
-                        <h1 class="h2">Dashboard</h1>
-                        <div class="btn-toolbar mb-2 mb-md-0">
-                            <div class="btn-group mr-2">
-                                <button class="btn btn-sm btn-outline-secondary">Share</button>
-                                <button class="btn btn-sm btn-outline-secondary">Export</button>
+                    <div class="container">
+                        
+                        <div
+                            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+                        >
+                            <b-breadcrumb :items="items"/>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <div class="btn-group mr-2">
+                                    <button class="btn btn-sm btn-outline-secondary">Share</button>
+                                    <button class="btn btn-sm btn-outline-secondary">Export</button>
+                                </div>
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                                    <calendar-icon class="custom-class"></calendar-icon>This week
+                                </button>
                             </div>
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                                <calendar-icon class="custom-class"></calendar-icon>This week
-                            </button>
                         </div>
-                    </div>
-                    <h2>Section title</h2>
-                    <br>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <figure class="card card-product">
-                                <div class="img-wrap">
-                                    <img
-                                        src="https://www.androidguys.com/wp-content/uploads/2016/05/dots.jpg"
-                                    >
+                        <div class="container">
+                            <div class="row mx-5">
+                                <div v-for="post in posts" :key="post._id" class="col-md-4">
+                                    <figure class="card card-product">
+                                        <div class="img-wrap">
+                                            <img :src="post.image">
+                                        </div>
+                                        <figcaption class="info-wrap">
+                                            <h4 class="title">Another name of</h4>
+                                            <p class="desc">{{ post.description }}</p>
+                                            <div class="rating-wrap">
+                                                <div class="label-rating">132 reviews</div>
+                                                <div class="label-rating">154 orders</div>
+                                            </div>
+                                            <!-- rating-wrap.// -->
+                                        </figcaption>
+                                        <div class="bottom-wrap">
+                                            <a
+                                                href=""
+                                                class="btn btn-sm btn-primary float-right"
+                                            >View Details</a>
+                                            <div class="price-wrap h5">
+                                                <span class="price-new">${{post.feePerHour}}</span>
+                                            </div>
+                                            <!-- price-wrap.// -->
+                                        </div>
+                                        <!-- bottom-wrap.// -->
+                                    </figure>
                                 </div>
-                                <figcaption class="info-wrap">
-                                    <h4 class="title">Another name of item</h4>
-                                    <p class="desc">Some small description goes here</p>
-                                    <div class="rating-wrap">
-                                        <div class="label-rating">132 reviews</div>
-                                        <div class="label-rating">154 orders</div>
-                                    </div>
-                                    <!-- rating-wrap.// -->
-                                </figcaption>
-                                <div class="bottom-wrap">
-                                    <a href="" class="btn btn-sm btn-primary float-right">Order Now</a>
-                                    <div class="price-wrap h5">
-                                        <span class="price-new">$1280</span>
-                                    </div>
-                                    <!-- price-wrap.// -->
-                                </div>
-                                <!-- bottom-wrap.// -->
-                            </figure>
+                                <!-- col // -->
+                                <!-- col // -->
+                            </div>
                         </div>
-                        <!-- col // -->
-                        <div class="col-md-4">
-                            <figure class="card card-product">
-                                <div class="img-wrap">
-                                    <img
-                                        src="https://www.androidguys.com/wp-content/uploads/2016/05/dots.jpg"
-                                    >
-                                </div>
-                                <figcaption class="info-wrap">
-                                    <h4 class="title">Good product</h4>
-                                    <p class="desc">Some small description goes here</p>
-                                    <div class="rating-wrap">
-                                        <div class="label-rating">132 reviews</div>
-                                        <div class="label-rating">154 orders</div>
-                                    </div>
-                                    <!-- rating-wrap.// -->
-                                </figcaption>
-                                <div class="bottom-wrap">
-                                    <a href="" class="btn btn-sm btn-primary float-right">Order Now</a>
-                                    <div class="price-wrap h5">
-                                        <span class="price-new">$1280</span>
-                                    </div>
-                                    <!-- price-wrap.// -->
-                                </div>
-                                <!-- bottom-wrap.// -->
-                            </figure>
-                        </div>
-                        <div class="col-md-4">
-                            <figure class="card card-product">
-                                <div class="img-wrap">
-                                    <img
-                                        src="https://www.androidguys.com/wp-content/uploads/2016/05/dots.jpg"
-                                    >
-                                </div>
-                                <figcaption class="info-wrap">
-                                    <h4 class="title">Good product</h4>
-                                    <p class="desc">Some small description goes here</p>
-                                    <div class="rating-wrap">
-                                        <div class="label-rating">132 reviews</div>
-                                        <div class="label-rating">154 orders</div>
-                                    </div>
-                                    <!-- rating-wrap.// -->
-                                </figcaption>
-                                <div class="bottom-wrap">
-                                    <a href="" class="btn btn-sm btn-primary float-right">Order Now</a>
-                                    <div class="price-wrap h5">
-                                        <span class="price-new">$1280</span>
-                                    </div>
-                                    <!-- price-wrap.// -->
-                                </div>
-                                <!-- bottom-wrap.// -->
-                            </figure>
-                        </div>
-                        <!-- col // -->
-                        <div class="col-md-4">
-                            <figure class="card card-product">
-                                <div class="img-wrap">
-                                    <img
-                                        src="https://www.androidguys.com/wp-content/uploads/2016/05/dots.jpg"
-                                    >
-                                </div>
-                                <figcaption class="info-wrap">
-                                    <h4 class="title">Product name goes here</h4>
-                                    <p class="desc">Some small description goes here</p>
-                                    <div class="rating-wrap">
-                                        <div class="label-rating">132 reviews</div>
-                                        <div class="label-rating">154 orders</div>
-                                    </div>
-                                    <!-- rating-wrap.// -->
-                                </figcaption>
-                                <div class="bottom-wrap">
-                                    <a href="" class="btn btn-sm btn-primary float-right">Order Now</a>
-                                    <div class="price-wrap h5">
-                                        <span class="price-new">$1280</span>
-                                    </div>
-                                    <!-- price-wrap.// -->
-                                </div>
-                                <!-- bottom-wrap.// -->
-                            </figure>
-                        </div>
-                        <!-- col // -->
                     </div>
                     <!-- row.// -->
                 </main>
@@ -181,6 +102,7 @@
 </template>
 
 <script>
+import PostService from '@/services/PostService'
 import {
 	HomeIcon,
 	CalendarIcon,
@@ -195,6 +117,31 @@ export default {
 		FileIcon,
 		ShoppingCartIcon,
 		UserIcon
+	},
+	data () {
+		return {
+			posts: [],
+			items: [
+				{
+					text: 'Posts',
+					active: true
+				}
+			]
+		}
+	},
+	methods: {
+		async getPosts () {
+			try {
+				const response = await PostService.get({})
+				console.log(response)
+				this.posts = response.data.posts
+			} catch (error) {
+				this.error = error.response.data.error
+			}
+		}
+	},
+	mounted () {
+		this.getPosts()
 	}
 }
 </script>
