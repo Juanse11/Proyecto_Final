@@ -1,18 +1,22 @@
 <template>
     <div class="dashboard">
-        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+        <nav class="navbar navbar-dark ju fixed-top bg-dark flex-md-nowrap p-0 shadow">
             <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-            <input
-                class="form-control form-control-dark w-25"
+
+                 <input
+                class="form-control form-control-dark w-100 mr-5"
                 type="text"
                 placeholder="Search"
-                aria-label="Search"
+                
             >
-            <ul class="navbar-nav px-3">
+            <ul class="navbar-nav px-3 ml-5 mr-5">
                 <li class="nav-item text-nowrap">
                     <button class="btn btn-sm btn-outline-secondary">Create a posting</button>
                 </li>
             </ul>
+            
+           
+            
         </nav>
         <div class="container-fluid">
             <div class="row">
@@ -21,7 +25,7 @@
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                 <a class="nav-link active" href="#">
-                                    <home-icon class="custom-class"></home-icon>Dashboard
+                                    <home-icon class="custom-class"></home-icon>Home
                                     <span class="sr-only">(current)</span>
                                 </a>
                             </li>
@@ -32,12 +36,12 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
-                                    <shopping-cart-icon class="custom-class"></shopping-cart-icon>Products
+                                    <message-circle-icon class="custom-class"></message-circle-icon>Messages
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
-                                    <user-icon class="custom-class"></user-icon>Customers
+                                    <user-icon class="custom-class"></user-icon>Profile
                                 </a>
                             </li>
                         </ul>
@@ -49,21 +53,25 @@
                         <div
                             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
                         >
-                            <b-breadcrumb :items="items"/>
+                            <h1>Posts</h1>
                             <div class="btn-toolbar mb-2 mb-md-0">
-                                <div class="btn-group mr-2">
-                                    <button class="btn btn-sm btn-outline-secondary">Share</button>
-                                    <button class="btn btn-sm btn-outline-secondary">Export</button>
-                                </div>
-                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                                    <calendar-icon class="custom-class"></calendar-icon>This week
+                                
+                                <label class="mt-1 mr-2" >Sort by: </label>
+                                
+                                <button class="bg-light btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <arrow-up-right-icon class="custom-class"></arrow-up-right-icon>Price: Low to High
                                 </button>
+                                <div class="dropdown-menu">
+                                    <a class="active dropdown-item btn btn-outline-secondary" href="#"><arrow-up-right-icon class="custom-class"></arrow-up-right-icon>Price: Low to High</a>
+                                    <a class="dropdown-item btn btn-outline-secondary" href="#"><arrow-up-right-icon class="custom-class"></arrow-up-right-icon>Price: Low to High</a>
+                                    <a class="dropdown-item btn btn-outline-secondary" href="#"><arrow-down-right-icon class="custom-class"></arrow-down-right-icon>Price: High to Low</a>
+                                </div>
                             </div>
                         </div>
                         <div class="container">
                             <div class="row mx-5">
                                 <div v-for="post in posts" :key="post._id" class="col-md-4">
-                                    <figure class="card card-product">
+                                    <figure class="card bg-light card-product">
                                         <div class="img-wrap">
                                             <img :src="post.image">
                                         </div>
@@ -79,11 +87,12 @@
                                         <div class="bottom-wrap">
                                             <a
                                                 href=""
-                                                class="btn btn-sm btn-primary float-right"
+                                                class="btn btn-sm btn-outline-secondary float-right"
                                             >View Details</a>
                                             <div class="price-wrap h5">
                                                 <span class="price-new">${{post.feePerHour}}</span>
                                             </div>
+                                            <p class="card-text"><small class="text-muted">December 36ths</small></p>
                                             <!-- price-wrap.// -->
                                         </div>
                                         <!-- bottom-wrap.// -->
@@ -95,9 +104,14 @@
                         </div>
                     </div>
                     <!-- row.// -->
+                    <b-pagination size="md" class="mt-3" align="center" :total-rows="10" v-model="currentPage" :per-page="10">
+                    </b-pagination>
+                    
                 </main>
             </div>
+            
         </div>
+        
     </div>
 </template>
 
@@ -105,17 +119,19 @@
 import PostService from '@/services/PostService'
 import {
 	HomeIcon,
-	CalendarIcon,
+	ArrowUpRightIcon,
+	ArrowDownRightIcon,
 	FileIcon,
-	ShoppingCartIcon,
+	MessageCircleIcon,
 	UserIcon
 } from 'vue-feather-icons'
 export default {
 	components: {
 		HomeIcon,
-		CalendarIcon,
+		ArrowUpRightIcon,
+		ArrowDownRightIcon,
 		FileIcon,
-		ShoppingCartIcon,
+		MessageCircleIcon,
 		UserIcon
 	},
 	data () {

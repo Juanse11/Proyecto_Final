@@ -11,6 +11,9 @@ const postSchema = new Schema(
   },
   {
     versionKey: false
+  },
+  {
+    timestamps: { createdAt: 'created_at' }
   }
 )
 

@@ -10,6 +10,9 @@ const orderSchema = new Schema(
     status: { type: String, required: [true, 'A fee is required'], default: 'Pending' }
   },
   {
+    timestamps: { createdAt: 'created_at' }
+  },
+  {
     versionKey: false
   }
 )
