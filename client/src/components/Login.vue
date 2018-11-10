@@ -11,7 +11,7 @@
 			</label>
 		</div>
 		<button class="btn btn-lg btn-primary btn-block" @click="login">Sign in</button>
-		<p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+		<p class="mt-3 mb-3 pl-4 pt-2 border-left-0 border-top-0 text-muted">Don't have an account?<router-link :to="{name: 'register'}"> Register </router-link></p>
   </div>
 </template>
 
@@ -32,10 +32,10 @@
   				password: this.password
   			})
   			if (response.data.user) {
-  				this.$router.push('Dashboard')
+  				this.$store.dispatch('setToken', response.data.token)
+  				this.$store.dispatch('setUser', response.data.user._id)
+  				this.$router.replace({ name: 'dashboard' })
   			}
-  			this.$store.dispatch('setToken', response.data.token)
-  			this.$store.dispatch('setUser', response.data.user)
   		}
   	}
   }

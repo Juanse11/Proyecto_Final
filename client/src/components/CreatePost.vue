@@ -1,21 +1,11 @@
 <template>
     <div class="dashboard">
-        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-            <input
-                class="form-control form-control-dark w-25"
-                type="text"
-                placeholder="Search"
-                aria-label="Search"
-            >
-            <div class="container">
-                <ul class="navbar-nav px-3">
-                    <li class="nav-item text-nowrap">
-                        <button class="btn btn-sm btn-outline-secondary">Create a posting</button>
-                    </li>
-                </ul>
-            </div>
-            
+        <nav class="navbar navbar-dark ju fixed-top bg-dark flex-md-nowrap p-0 shadow">
+            <router-link
+                :to="{name: 'dashboard'}"
+                class="navbar-brand col-sm-3 col-md-2 mr-0"
+                href="#"
+            >Officii</router-link>
         </nav>
         <div class="container-fluid">
             <div class="row">
@@ -24,7 +14,7 @@
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                 <a class="nav-link active" href="#">
-                                    <home-icon class="custom-class"></home-icon>Dashboard
+                                    <home-icon class="custom-class"></home-icon>Home
                                     <span class="sr-only">(current)</span>
                                 </a>
                             </li>
@@ -35,37 +25,75 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
-                                    <shopping-cart-icon class="custom-class"></shopping-cart-icon>Products
+                                    <message-circle-icon class="custom-class"></message-circle-icon>Messages
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
-                                    <user-icon class="custom-class"></user-icon>Customers
+                                    <user-icon class="custom-class"></user-icon>Profile
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </nav>
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                    <div
-                        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-                    >
-                        <h1 class="h2">Dashboard</h1>
-                        <div class="btn-toolbar mb-2 mb-md-0">
-                            <div class="btn-group mr-2">
-                                <button class="btn btn-sm btn-outline-secondary">Share</button>
-                                <button class="btn btn-sm btn-outline-secondary">Export</button>
+                    <div class="container">
+                        <div
+                            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+                        >
+                            <h1>Create a post</h1>
+                        </div>
+                        <div class="container">
+                            <div class="row mx-5">
+                                <div class="col-lg 12">
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <input
+                                            type="name"
+                                            class="form-control w-50"
+                                            id="serviceName"
+                                            placeholder="Service name"
+                                            v-model="post.title"
+                                        >
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea
+                                            class="form-control w-50"
+                                            id="Description"
+                                            placeholder="Description of the service"
+                                            rows="3"
+                                            v-model="post.description"
+                                        ></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Fee</label>
+                                        <input
+                                            type="number"
+                                            class="form-control w-50"
+                                            v-model="post.fee"
+                                            placeholder="$"
+                                        >
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tags</label>
+                                        <vue-tags-input
+                                            v-model="tag"
+                                            :tags="tags"
+                                            @tags-changed="newTags => tags = newTags">
+                                        </vue-tags-input>
+                                    </div>
+                                    <div>
+                                        <button
+                                            @click="createPost"
+                                            type="button"
+                                            class="btn btn-outline-secondary btn-sm"
+                                        >Submit</button>
+                                    </div>
+                                </div>
                             </div>
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                                <calendar-icon class="custom-class"></calendar-icon>This week
-                            </button>
                         </div>
                     </div>
-                    <h2>Section title</h2>
-                    <br>
-                    <hr>
-                    
-                    <!-- row.// -->
                 </main>
             </div>
         </div>
@@ -73,26 +101,61 @@
 </template>
 
 <script>
+import VueTagsInput from '@johmun/vue-tags-input'
+import PostService from '@/services/PostService'
 import {
 	HomeIcon,
-	CalendarIcon,
+	ArrowUpRightIcon,
+	ArrowDownRightIcon,
 	FileIcon,
-	ShoppingCartIcon,
+	MessageCircleIcon,
 	UserIcon
 } from 'vue-feather-icons'
 export default {
 	components: {
 		HomeIcon,
-		CalendarIcon,
+		ArrowUpRightIcon,
+		ArrowDownRightIcon,
 		FileIcon,
-		ShoppingCartIcon,
-		UserIcon
+		MessageCircleIcon,
+		UserIcon,
+		VueTagsInput
+	},
+	data () {
+		return {
+			post: {
+				title: null,
+				description: null,
+				image: null,
+				jobType: null,
+				userID: null,
+				fee: null,
+				tags: []
+			},
+			tag: '',
+			tags: []
+		}
+	},
+	methods: {
+		async createPost () {
+			try {
+				this.post.tags = this.tags
+				const response = await PostService.create(this.post)
+				console.log(response)
+				this.$router.replace({ name: 'dashboard' })
+			} catch (error) {
+				this.error = error.response.data.error
+			}
+		}
 	}
 }
 </script>
 
-<style type="text/css">
-/* Some basic formatting */
+<style >
+/*
+ * bootstrap-tagsinput v0.8.0
+ * 
+ */
 body {
   font-size: 0.875rem;
 }
@@ -197,5 +260,4 @@ body {
   border-color: transparent;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
 }
-
 </style>

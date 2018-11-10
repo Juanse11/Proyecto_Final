@@ -10,7 +10,6 @@ const userSchema = new Schema(
     lastName: { type: String },
     password: { type: String },
     phone: { type: String },
-    jobs: { type: [String] },
     posts: { type: [String] }
   },
   {

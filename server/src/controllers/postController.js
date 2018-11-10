@@ -3,6 +3,7 @@ const Post = require('../models/postModel')
 module.exports = {
   async  create (req, res) {
     try {
+      console.log(req.body)
       const post = await Post.create(req.body)
       res.send({
         post: post.toJSON()
@@ -16,7 +17,7 @@ module.exports = {
   async  get (req, res) {
     try {
       const posts = await Post.find(req.body)
-      console.log(posts)
+      
       res.send({
         posts: posts
       })

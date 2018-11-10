@@ -6,7 +6,23 @@
 
 <script>
 import PostService from '@/services/PostService'
+import {
+	HomeIcon,
+	ArrowUpRightIcon,
+	ArrowDownRightIcon,
+	FileIcon,
+	MessageCircleIcon,
+	UserIcon
+} from 'vue-feather-icons'
 export default {
+	components: {
+		HomeIcon,
+		ArrowUpRightIcon,
+		ArrowDownRightIcon,
+		FileIcon,
+		MessageCircleIcon,
+		UserIcon
+	},
 	data () {
 		return {
 			posts: []

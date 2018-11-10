@@ -11,7 +11,7 @@
 			</label>
 		</div>
 		<button class="btn btn-lg btn-primary btn-block" @click="register" type="submit">Sign up</button>
-		<p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+		<p class="mt-4 mb-3 pl-5 pt-2 border-left-0 border-top-0 text-muted">Have an account already?<router-link :to="{name: 'login'}"> Log in </router-link></p>
   </form>
 </template>
 

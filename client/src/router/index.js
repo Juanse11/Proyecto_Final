@@ -3,8 +3,26 @@ import Router from 'vue-router'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
+import CreatePost from '@/components/CreatePost'
+import store from '@/store/store'
 
 Vue.use(Router)
+
+const ifNotAuthenticated = (to, from, next) => {
+	if (!store.getters.isAuthenticated) {
+		next()
+		return
+	}
+	next('/dashboard')
+}
+
+const ifAuthenticated = (to, from, next) => {
+	if (store.getters.isAuthenticated) {
+		next()
+		return
+	}
+	next('/login')
+}
 
 export default new Router({
 	mode: 'history',
@@ -12,17 +30,26 @@ export default new Router({
 		{
 			path: '/register',
 			name: 'register',
-			component: Register
+			component: Register,
+			beforeEnter: ifNotAuthenticated
 		},
 		{
 			path: '/login',
 			name: 'login',
-			component: Login
+			component: Login,
+			beforeEnter: ifNotAuthenticated
+		},
+		{
+			path: '/posts/create',
+			name: 'CreatePost',
+			component: CreatePost,
+			beforeEnter: ifAuthenticated
 		},
 		{
 			path: '/dashboard',
 			name: 'dashboard',
-			component: Dashboard
+			component: Dashboard,
+			beforeEnter: ifAuthenticated
 		}
 	]
 })

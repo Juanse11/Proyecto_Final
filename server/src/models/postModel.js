@@ -5,15 +5,14 @@ const postSchema = new Schema(
   {
     userID: { type: Schema.Types.ObjectId },
     description: { type: String },
-    jobType: { type: String },
-    feePerHour: { type: Number },
-    image: { type: String }
+    title: { type: String },
+    tags: { type: [Object] },
+    fee: { type: Number },
+    image: { type: String },
+    dateCreated: { type: Date, default: Date.now }
   },
   {
     versionKey: false
-  },
-  {
-    timestamps: { createdAt: 'created_at' }
   }
 )
 

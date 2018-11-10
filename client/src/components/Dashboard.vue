@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard">
         <nav class="navbar navbar-dark ju fixed-top bg-dark flex-md-nowrap p-0 shadow">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
+            <router-link :to="{name: 'dashboard'}" class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</router-link>
 
                  <input
                 class="form-control form-control-dark w-100 mr-5"
@@ -11,7 +11,9 @@
             >
             <ul class="navbar-nav px-3 ml-5 mr-5">
                 <li class="nav-item text-nowrap">
+                    <router-link :to="{name: 'CreatePost'}">
                     <button class="btn btn-sm btn-outline-secondary">Create a posting</button>
+                    </router-link>
                 </li>
             </ul>
             
@@ -31,7 +33,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
-                                    <file-icon class="custom-class"></file-icon>Orders
+                                    <file-icon class="custom-class"></file-icon>My Posts
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -45,6 +47,13 @@
                                 </a>
                             </li>
                         </ul>
+                        <div class="d-flex h-75">
+                            <a class="nav-link align-self-end mt-5" href="" @click="logOut">
+                                <power-icon class="custom-class"></power-icon>Log Out
+                            </a>
+                        </div>
+                            
+                        
                     </div>
                 </nav>
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
@@ -76,8 +85,11 @@
                                             <img :src="post.image">
                                         </div>
                                         <figcaption class="info-wrap">
-                                            <h4 class="title">Another name of</h4>
-                                            <p class="desc">{{ post.description }}</p>
+                                            <h4 class="title">{{post.title}}</h4>
+                                            <div class="d-flex">
+                                                <span v-for="tag in post.tags" :key="tag.text" class="badge badge-secondary mr-1" >{{tag.text}}</span>
+                                            </div>
+                                                
                                             <div class="rating-wrap">
                                                 <div class="label-rating">132 reviews</div>
                                                 <div class="label-rating">154 orders</div>
@@ -90,9 +102,9 @@
                                                 class="btn btn-sm btn-outline-secondary float-right"
                                             >View Details</a>
                                             <div class="price-wrap h5">
-                                                <span class="price-new">${{post.feePerHour}}</span>
+                                                <span class="price-new">${{post.fee}}</span>
                                             </div>
-                                            <p class="card-text"><small class="text-muted">December 36ths</small></p>
+                                            <p class="card-text"><small class="text-muted">{{new Date(post.dateCreated).toDateString()}}</small></p>
                                             <!-- price-wrap.// -->
                                         </div>
                                         <!-- bottom-wrap.// -->
@@ -102,10 +114,11 @@
                                 <!-- col // -->
                             </div>
                         </div>
+                        <b-pagination @click="e.preventDefault()" size="md" class="mt-3" align="center" :total-rows="10" v-model="currentPage" :per-page="2">
+                        </b-pagination>
                     </div>
                     <!-- row.// -->
-                    <b-pagination size="md" class="mt-3" align="center" :total-rows="10" v-model="currentPage" :per-page="10">
-                    </b-pagination>
+                    
                     
                 </main>
             </div>
@@ -123,36 +136,41 @@ import {
 	ArrowDownRightIcon,
 	FileIcon,
 	MessageCircleIcon,
-	UserIcon
+	UserIcon,
+	PowerIcon
 } from 'vue-feather-icons'
 export default {
-	components: {
+	components: {	
 		HomeIcon,
 		ArrowUpRightIcon,
 		ArrowDownRightIcon,
 		FileIcon,
 		MessageCircleIcon,
-		UserIcon
+		UserIcon,
+		PowerIcon
 	},
 	data () {
 		return {
-			posts: [],
-			items: [
-				{
-					text: 'Posts',
-					active: true
-				}
-			]
+			currentPage: 1,
+			posts: []
 		}
 	},
 	methods: {
 		async getPosts () {
 			try {
 				const response = await PostService.get({})
-				console.log(response)
 				this.posts = response.data.posts
 			} catch (error) {
 				this.error = error.response.data.error
+			}
+		},
+		async logOut () {
+			try {
+				console.log('sdfkjdhfksjdfhskdjfhskfjshkfshdfksjfhskjfhsdfkjshfks')
+				this.$store.dispatch('logOut', null)
+				this.$router.replace({ name: 'login' })
+			} catch (error) {
+
 			}
 		}
 	},
