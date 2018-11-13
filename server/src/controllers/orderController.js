@@ -37,5 +37,20 @@ module.exports = {
         error: 'Error deleting the orders'
       })
     }
+  },
+  async  update (req, res) {
+    try {
+      console.log(req.body, req.params.id)
+      const order = await Order.updateOne({
+        _id: req.params.id
+      }, req.body)
+      res.send({
+        order: order
+      })
+    } catch (error) {
+      res.send({
+        error: 'Error updating the order'
+      })
+    }
   }
 }

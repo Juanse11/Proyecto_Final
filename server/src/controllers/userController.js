@@ -3,7 +3,6 @@ const User = require('../models/userModel')
 module.exports = {
   async  getById (req, res) {
     try {
-      console.log(req.params, 'userGet')
       const user = await User.findById(req.params.id)
       res.send({
         user: user
@@ -25,5 +24,13 @@ module.exports = {
         error: 'Error getting the user'
       })
     }
+  },
+  addNotification (req, res) {
+    User.findById({ _id: req.params.id }, function (_err, result) {
+      result.notifications.push(req.body)
+      result.save().then(function (_err, response) {
+        res.send({ message: 'updated notifications' })
+      })
+    })
   }
 }

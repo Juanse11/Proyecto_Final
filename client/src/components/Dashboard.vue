@@ -26,30 +26,30 @@
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">
-                                    <home-icon class="custom-class"></home-icon>Home
+                                <router-link :to="{name: 'dashboard'}" class="active nav-link" >
+                                    <font-awesome-icon icon="list-alt" /> Home 
                                     <span class="sr-only">(current)</span>
-                                </a>
+                                </router-link>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <file-icon class="custom-class"></file-icon>My Posts
-                                </a>
+                                <router-link :to="{name: 'myposts'}" class="nav-link">
+                                    <font-awesome-icon icon="file-alt" /> My Posts
+                                </router-link>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <message-circle-icon class="custom-class"></message-circle-icon>Messages
-                                </a>
+                                <router-link :to="{name: 'notifications'}" class="nav-link">
+                                    <font-awesome-icon icon="bell" /> Notifications
+                                </router-link>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <user-icon class="custom-class"></user-icon>Profile
-                                </a>
+                                <router-link :to="{name: 'profile'}" class="nav-link">
+                                    <font-awesome-icon icon="address-card" /> Profile
+                                </router-link>
                             </li>
                         </ul>
                         <div class="d-flex h-75">
                             <a class="nav-link align-self-end mt-5" href="" @click="logOut">
-                                <power-icon class="custom-class"></power-icon>Log Out
+                                <font-awesome-icon icon="sign-out-alt" class="custom-class"/>Log Out
                             </a>
                         </div>
                             
@@ -67,15 +67,19 @@
                                 
                                 <label class="mt-1 mr-2" >Sort by: </label>
                                 
-                                <button class="bg-light btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <arrow-up-right-icon class="custom-class"></arrow-up-right-icon>Price: Low to High
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a @click='sort_by("fee", true)' class="active dropdown-item btn btn-outline-secondary"><arrow-up-right-icon class="custom-class"></arrow-up-right-icon>Price: High to Low</a>
-                                    <a @click='sort_by("fee", false)' class="dropdown-item btn btn-outline-secondary"><arrow-up-right-icon class="custom-class"></arrow-up-right-icon>Price: Low to High</a>
-                                    <a @click='sort_by("rating", true)' class="dropdown-item btn btn-outline-secondary"><thumbs-up-icon class="custom-class"></thumbs-up-icon>Rating: High to Low</a>
-                                    <a @click='sort_by("rating", false)' class="dropdown-item btn btn-outline-secondary"><thumbs-down-icon class="custom-class"></thumbs-down-icon>Rating: Low to High</a>
-                                    <a @click='sort_by("dateCreated", true)' class="dropdown-item btn btn-outline-secondary"><arrow-down-right-icon class="custom-class"></arrow-down-right-icon>Date: Most Recent</a>
+                                <div class="btn-group">
+
+                                
+                                    <button class="bg-light btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" type="button" >
+                                        <font-awesome-icon icon="arrow-alt-circle-down" class="custom-class mr-1" />Price: Low to High
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdown-item px-0"><a @click='sort_by("fee", true)' class="w-100 "><font-awesome-icon icon="arrow-alt-circle-down" class="custom-class mr-1" />Price: High to Low</a></li>
+                                        <li class="dropdown-item px-0"><a @click='sort_by("fee", false)' class=" w-100"><font-awesome-icon icon="arrow-alt-circle-up" class="custom-class mr-1" />Price: Low to High</a></li>
+                                        <li class="dropdown-item px-0"><a @click='sort_by("rating", true)' class=" w-100"><font-awesome-icon icon="star" class="custom-class mr-1" />Rating: High to Low</a></li>
+                                        <li class="dropdown-item px-0"><a @click='sort_by("rating", false)' class=" w-100"><font-awesome-icon icon="star" class="custom-class mr-1" />Rating: Low to High</a></li>
+                                        <li class="dropdown-item px-0"><a @click='sort_by("dateCreated", true)' class="w-100"><font-awesome-icon icon="calendar-alt" class="custom-class mr-1" />Date: Most Recent</a></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -202,6 +206,10 @@ export default {
 	},
 	mounted () {
 		this.getPosts()
+		$('.dropdown-menu li a').click(function () {
+			var selText = $(this).text()
+			$(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>')
+		})
 	}
 }
 </script>

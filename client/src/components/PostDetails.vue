@@ -25,32 +25,34 @@
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">
-                                    <home-icon class="custom-class"></home-icon>Home
+                                <router-link :to="{name: 'dashboard'}" class="nav-link" >
+                                    <font-awesome-icon icon="list-alt" /> Home 
                                     <span class="sr-only">(current)</span>
-                                </a>
+                                </router-link>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <file-icon class="custom-class"></file-icon>My Posts
-                                </a>
+                                <router-link :to="{name: 'myposts'}" class="nav-link">
+                                    <font-awesome-icon icon="file-alt" /> My Posts
+                                </router-link>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <message-circle-icon class="custom-class"></message-circle-icon>Messages
-                                </a>
+                                <router-link :to="{name: 'notifications'}" class="nav-link">
+                                    <font-awesome-icon icon="bell" /> Notifications
+                                </router-link>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <user-icon class="custom-class"></user-icon>Profile
-                                </a>
+                                <router-link :to="{name: 'profile'}" class="nav-link">
+                                    <font-awesome-icon icon="address-card" /> Profile
+                                </router-link>
                             </li>
                         </ul>
                         <div class="d-flex h-75">
                             <a class="nav-link align-self-end mt-5" href="" @click="logOut">
-                                <power-icon class="custom-class"></power-icon>Log Out
+                                <font-awesome-icon icon="sign-out-alt" class="custom-class"/>Log Out
                             </a>
                         </div>
+                            
+                        
                     </div>
                 </nav>
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
@@ -435,6 +437,12 @@ export default {
 				description: '',
 				postID: this.$route.params.id
 			},
+			notification: {
+				customerID: this.$store.state.user,
+				message: 'Has sent you an offer.',
+				notifType: 'offerSent',
+				postTitle: ''
+			},
 			reviews: []
 		}
 	},
@@ -459,8 +467,11 @@ export default {
 			try {
 				this.offer.workerID = this.post.userID
 				await OrderService.create(this.offer)
+
+				this.notification.postTitle = this.post.title
+				await AuthenticationService.addNotification(this.notification, this.post.userID)
 			} catch (error) {
-                console.log('hola hola hola hola hola')
+
 			}
 		},
 		async createReview () {

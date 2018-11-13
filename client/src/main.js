@@ -8,6 +8,13 @@ import store from '@/store/store'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import BootstrapVue from 'bootstrap-vue'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faListAlt, faAddressCard, faArrowAltCircleDown, faArrowAltCircleUp, faCalendarAlt, faBell, faComments, faFileAlt, faSignOutAlt, faStar } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faListAlt, faAddressCard, faArrowAltCircleDown, faArrowAltCircleUp, faCalendarAlt, faBell, faComments, faFileAlt, faSignOutAlt, faStar)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)

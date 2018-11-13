@@ -9,5 +9,8 @@ export default {
 	},
 	getByPost (postID) {
 		return Api().get(`orders?postID=${postID}`)
+	},
+	updateStatus (orderID, status) {
+		return Api().put(`orders/${orderID}`, status)
 	}
 }

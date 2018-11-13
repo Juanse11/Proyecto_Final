@@ -31,12 +31,12 @@
                                 </router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link :to="{name: 'myposts'}" class="active nav-link">
+                                <router-link :to="{name: 'myposts'}" class="nav-link">
                                     <font-awesome-icon icon="file-alt" /> My Posts
                                 </router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link :to="{name: 'notifications'}" class="nav-link">
+                                <router-link :to="{name: 'notifications'}" class="active nav-link">
                                     <font-awesome-icon icon="bell" /> Notifications
                                 </router-link>
                             </li>
@@ -56,73 +56,39 @@
                     </div>
                 </nav>
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                    
                     <div class="container">
-                        <div class="container">
-                            <div class="row mx-5">
-                                <div class="col-12 mt-4">
-                                    <h3>My Posts</h3>
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Title</th>
-                                                <th scope="col">Fee</th>
-                                                <th scope="col">Details</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr @click="getOffers(post._id)" v-for="(post, index) in posts"  :key="post._id" class="table-row">
-                                                <th scope="row">{{index}}</th>
-                                                <td>{{post.title}}</td>
-                                                <td>{{post.fee}}</td>    
-                                                <td>
-                                                    <router-link :to="`/posts/${post._id}`">
-                                                        <button
-                                                            href=""
-                                                            class="btn btn-sm btn-outline-secondary"
-                                                        >View Details</button>
-                                                    </router-link>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-12 mt-4">
-                                    <h3>My Offers</h3>
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Customer</th>
-                                                <th scope="col">Fee</th>
-                                                <th scope="col">Status</th>
-                                                <th v-show="showAccept" scope="col">Accept/Reject</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                                <tr  v-for="(offer, index) in offers"  :key="offer._id" class="table-row">
-                                                    <th scope="row">{{index}}</th>
-                                                    <td>{{offer.customerID}}</td>
-                                                    <td>{{offer.offer}}</td>                                               
-                                                    <td>{{offer.status}}</td>                                              
-                                                    <td v-show="offer.status === 'Pending'"><div class="btn-group justify-content-center">
-                                                        <button class="btn btn-sm btn-outline-secondary">
-                                                            <i class="fas fa-shopping-cart"></i>Reject
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            class="btn btn-sm btn-secondary"
-                                                            @click="acceptOffer(offer._id)"
-                                                        >Accept</button>
-                                                    </div></td>                                              
-                                                </tr>
-                                        </tbody>
-                                    </table>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3 p-3 bg-white rounded shadow-sm">
+                                    <h4
+                                        class="border-bottom border-gray pb-2 mb-0"
+                                    >Recent Notifications</h4>
+                                    <div v-for="notification in user.notifications" :key="notification._id" class="media text-muted pt-3">
+                                        <img
+                                            src="http://dummyimage.com/60x60/666/ffffff&text=No+Image"
+                                            alt=""
+                                            class="mr-2 rounded"
+                                        >
+                                        <p
+                                            class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"
+                                        >
+                                            <strong class="d-block text-gray-dark">Juan Estrada</strong>
+                                            Juan Estrada {{notification.message}} Congratulations!
+                                        </p>
+                                    </div>
+                                    
+                                    
+                                    <small class="d-block text-right mt-3">
+                                        <a href="#">All updates</a>
+                                    </small>
                                 </div>
                             </div>
+                            <!-- col // -->
+                            <!-- col // -->
                         </div>
                     </div>
+                    
                     <!-- row.// -->
                 </main>
             </div>
@@ -131,59 +97,46 @@
 </template>
 
 <script>
-import PostService from '@/services/PostService'
-import OrderService from '@/services/OrderService'
+import AuthenticationService from '@/services/AuthenticationService'
 export default {
 	data () {
 		return {
-			postID: '',
 			userID: this.$store.state.user,
-			posts: [],
-			offers: []
+			user: {
+				email: '',
+				notifications: []
+			}
 		}
 	},
 	methods: {
-		async getPosts () {
-			try {
-				const response = await PostService.getByQuery(this.userID)
-				this.posts = response.data.posts
-			} catch (error) {
-				this.error = error.response.data.error
-			}
-		},
-		async getOffers (postID) {
-			try {
-				const response = await OrderService.getByPost(postID)
-				this.offers = response.data.orders
-			} catch (error) {
-				this.error = error.response.data.error
-			}
-		},
 		async logOut () {
 			try {
 				this.$store.dispatch('logOut', null)
 				this.$router.replace({ name: 'login' })
-			} catch (error) {}
-		},
-		setActive (postID) {
-			this.active = postID
-		},
-		async acceptOffer (offerID) {
-			try {
-				await OrderService.updateStatus(offerID, { status: 'Offer accepted' })
 			} catch (error) {
-				console.log('asdasdasd')
+
+			}
+		},
+		async getNotifications () {
+			try {
+				const response = await AuthenticationService.getUser(this.userID)
+				this.user = response.data.user
+			} catch (error) {
+				this.error = error.response.data.error
 			}
 		}
 	},
 	mounted () {
-		this.getPosts()
+		this.getNotifications()
 	}
 }
 </script>
 
 <style type="text/css">
 /* Some basic formatting */
+.media.text-muted.pt-3 {
+    font-size: 1rem;
+}
 
 body {
   font-size: 0.875rem;
@@ -194,9 +147,7 @@ body {
   height: 16px;
   vertical-align: text-bottom;
 }
-.table-row{
-cursor:pointer;
-}
+
 /*
  * Sidebar
  */
