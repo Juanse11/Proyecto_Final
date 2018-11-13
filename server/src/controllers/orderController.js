@@ -15,7 +15,8 @@ module.exports = {
   },
   async  get (req, res) {
     try {
-      const orders = await Order.find(req.body)
+      console.log(req.query, 'query order')
+      const orders = await Order.find(req.query)
       res.send({
         orders: orders
       })

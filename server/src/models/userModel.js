@@ -10,7 +10,8 @@ const userSchema = new Schema(
     lastName: { type: String },
     password: { type: String },
     phone: { type: String },
-    posts: { type: [String] }
+    posts: { type: [String] },
+    rating: { type: Number }
   },
   {
     versionKey: false

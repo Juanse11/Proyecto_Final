@@ -9,7 +9,7 @@
                 placeholder="Search"
                 
             >
-            <ul class="navbar-nav justify-content-center">
+            <ul class="navbar-nav px-3 ml-5 mr-5">
                 <li class="nav-item text-nowrap">
                     <router-link :to="{name: 'CreatePost'}">
                     <button class="btn btn-sm btn-outline-secondary">Create a posting</button>
@@ -71,66 +71,19 @@
                                     <arrow-up-right-icon class="custom-class"></arrow-up-right-icon>Price: Low to High
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a @click='sort_by("fee", true)' class="active dropdown-item btn btn-outline-secondary"><arrow-up-right-icon class="custom-class"></arrow-up-right-icon>Price: High to Low</a>
-                                    <a @click='sort_by("fee", false)' class="dropdown-item btn btn-outline-secondary"><arrow-up-right-icon class="custom-class"></arrow-up-right-icon>Price: Low to High</a>
-                                    <a @click='sort_by("rating", true)' class="dropdown-item btn btn-outline-secondary"><thumbs-up-icon class="custom-class"></thumbs-up-icon>Rating: High to Low</a>
-                                    <a @click='sort_by("rating", false)' class="dropdown-item btn btn-outline-secondary"><thumbs-down-icon class="custom-class"></thumbs-down-icon>Rating: Low to High</a>
-                                    <a @click='sort_by("dateCreated", true)' class="dropdown-item btn btn-outline-secondary"><arrow-down-right-icon class="custom-class"></arrow-down-right-icon>Date: Most Recent</a>
+                                    <a class="active dropdown-item btn btn-outline-secondary" href="#"><arrow-up-right-icon class="custom-class"></arrow-up-right-icon>Price: Low to High</a>
+                                    <a class="dropdown-item btn btn-outline-secondary" href="#"><arrow-up-right-icon class="custom-class"></arrow-up-right-icon>Price: Low to High</a>
+                                    <a class="dropdown-item btn btn-outline-secondary" href="#"><arrow-down-right-icon class="custom-class"></arrow-down-right-icon>Price: High to Low</a>
                                 </div>
                             </div>
                         </div>
                         <div class="container">
-
-                                <transition-group name="flip-list" tag="div" class="row mx-5 justify-content-center">
-                                    <div v-for="post in sorted" :key="post._id" class="col-md-4">
-                                        <figure class="card bg-light card-product">
-                                            <div class="img-wrap">
-                                                <img :src="post.image">
-                                            </div>
-                                            <figcaption class="info-wrap">
-                                                <h4 class="title">{{post.title}}</h4>
-                                                <div class="d-flex">
-                                                    <a v-for="tag in post.tags" :key="tag.text" href="#" class="badge badge-secondary mr-1">{{tag.text}}</a>
-                                                </div>
-                                                    
-                                                <div class="rating-wrap">
-                                                    <div class="label-rating">{{post.reviews.length}} Reviews</div>
-                                                    <div class="label-rating float-right">
-                                                        <fa-rating
-                                                        :glyph="star"
-                                                        :item-size="10"
-                                                        inactive-color="#cfcfcf"
-                                                        active-color="#000"
-                                                        v-model="post.rating"
-                                                        read-only
-                                                        ></fa-rating>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <!-- rating-wrap.// -->
-                                            </figcaption>
-                                            <div class="bottom-wrap">
-                                                <router-link :to="`/posts/${post._id}`">
-                                                    <button
-                                                    href=""
-                                                    class="btn btn-sm btn-outline-secondary float-right"
-                                                    >View Details</button>
-                                                </router-link>
-                                                
-                                                <div class="price-wrap h5">
-                                                    <span class="price-new">${{post.fee}}</span>
-                                                </div>
-                                                <p class="card-text"><small class="text-muted">{{new Date(post.dateCreated).toDateString()}}</small></p>
-                                                <!-- price-wrap.// -->
-                                            </div>
-                                            <!-- bottom-wrap.// -->
-                                        </figure>
-                                    </div>
-                                </transition-group>
-                        
+                            <div class="row mx-5">
+                                
+                                <!-- col // -->
+                                <!-- col // -->
+                            </div>
                         </div>
-                        <b-pagination @click="e.preventDefault()" size="md" class="mt-3" align="center" :total-rows="10" v-model="currentPage" :per-page="10">
-                        </b-pagination>
                     </div>
                     <!-- row.// -->
                     
@@ -144,74 +97,18 @@
 </template>
 
 <script>
-import PostService from '@/services/PostService'
-import { FaRating } from 'vue-rate-it'
-import Star from 'vue-rate-it/glyphs/star'
+
 export default {
-	components: {
-		FaRating
-	},
-	created () {
-		this.star = Star
-	},
 	data () {
 		return {
-			field: '',
-			desc: false,
-			star: '',
-			currentPage: 1,
-			posts: []
-		}
-	},
-	methods: {
-		async getPosts () {
-			try {
-				const response = await PostService.get({})
-				this.posts = response.data.posts
-			} catch (error) {
-				this.error = error.response.data.error
-			}
-		},
-		async logOut () {
-			try {
-				this.$store.dispatch('logOut', null)
-				this.$router.replace({ name: 'login' })
-			} catch (error) {
 
-			}
-		},
-		sort_by (field, desc) {
-			this.field = field
-			this.desc = desc
 		}
-	},
-	computed: {
-		sorted () {
-			if (this.field === '') {
-				return this.posts
-			}
-
-			return this.posts.concat().sort((a, b) => {
-				if (this.desc) {
-					return a[this.field] > b[this.field] ? -1 : 1
-				} else {
-					return a[this.field] > b[this.field] ? 1 : -1
-				}
-			})
-		}
-	},
-	mounted () {
-		this.getPosts()
 	}
 }
 </script>
 
 <style type="text/css">
 /* Some basic formatting */
-.flip-list-move {
-  transition: transform 1s;
-}
-
 body {
   font-size: 0.875rem;
 }

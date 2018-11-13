@@ -10,6 +10,12 @@ export default {
 	update (post) {
 		return Api().put('posts', post)
 	},
+	getById (postID) {
+		return Api().get(`posts/${postID}`)
+	},
+	getByQuery (userID) {
+		return Api().get(`posts?userID=${userID}`)
+	},
 	get (post) {
 		return Api().get('posts', post)
 	}

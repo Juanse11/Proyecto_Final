@@ -2,7 +2,7 @@ import Api from '@/services/Api'
 
 export default {
 	create (review) {
-		return Api().review('reviews', review)
+		return Api().post('reviews', review)
 	},
 	delete (review) {
 		return Api().delete('reviews', review)

@@ -103,22 +103,9 @@
 <script>
 import VueTagsInput from '@johmun/vue-tags-input'
 import PostService from '@/services/PostService'
-import {
-	HomeIcon,
-	ArrowUpRightIcon,
-	ArrowDownRightIcon,
-	FileIcon,
-	MessageCircleIcon,
-	UserIcon
-} from 'vue-feather-icons'
+
 export default {
 	components: {
-		HomeIcon,
-		ArrowUpRightIcon,
-		ArrowDownRightIcon,
-		FileIcon,
-		MessageCircleIcon,
-		UserIcon,
 		VueTagsInput
 	},
 	data () {
@@ -140,6 +127,7 @@ export default {
 		async createPost () {
 			try {
 				this.post.tags = this.tags
+				this.post.userID = this.$store.state.user
 				const response = await PostService.create(this.post)
 				console.log(response)
 				this.$router.replace({ name: 'dashboard' })
