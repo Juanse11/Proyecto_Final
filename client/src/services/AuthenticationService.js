@@ -10,7 +10,7 @@ export default {
 	getUser (userID) {
 		return Api().get(`users/${userID}`)
 	},
-	addNotification (notification, workerID) {
-		return Api().put(`users/${workerID}`, notification)
+	addNotification (notification, userID) {
+		return Api().put(`users/${userID}`, notification)
 	}
 }

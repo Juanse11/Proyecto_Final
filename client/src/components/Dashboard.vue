@@ -7,6 +7,7 @@
                 class="form-control form-control-dark w-100 mr-5"
                 type="text"
                 placeholder="Search"
+                v-model="search"
                 
             >
             <ul class="navbar-nav justify-content-center">
@@ -71,7 +72,7 @@
 
                                 
                                     <button class="bg-light btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" type="button" >
-                                        <font-awesome-icon icon="arrow-alt-circle-down" class="custom-class mr-1" />Price: Low to High
+                                        <font-awesome-icon icon="calendar-alt" class="custom-class mr-1" />Date: Most Recent
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li class="dropdown-item px-0"><a @click='sort_by("fee", true)' class="w-100 "><font-awesome-icon icon="arrow-alt-circle-down" class="custom-class mr-1" />Price: High to Low</a></li>
@@ -160,7 +161,8 @@ export default {
 	},
 	data () {
 		return {
-			field: '',
+			field: 'dateCreated',
+			search: '',
 			desc: false,
 			star: '',
 			currentPage: 1,
@@ -191,17 +193,36 @@ export default {
 	},
 	computed: {
 		sorted () {
+			var sorted = []
+
 			if (this.field === '') {
 				return this.posts
 			}
 
-			return this.posts.concat().sort((a, b) => {
+			sorted = this.posts.concat().sort((a, b) => {
 				if (this.desc) {
 					return a[this.field] > b[this.field] ? -1 : 1
 				} else {
 					return a[this.field] > b[this.field] ? 1 : -1
 				}
 			})
+
+			if (this.search !== '') {
+				var filtered = []
+				sorted.forEach(post => {
+					var values = post.tags.filter(tag => {
+						return tag.text.toLowerCase().includes(this.search.toLowerCase())
+					})
+					if (values.length > 0) {
+						filtered.push(post)
+					}
+				})
+				return filtered
+			}
+			return sorted
+		},
+		ff () {
+
 		}
 	},
 	mounted () {

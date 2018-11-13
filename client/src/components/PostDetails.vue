@@ -284,7 +284,7 @@
                                 </div>
                             </div>
                         </div>
-                        <hr>
+                        <br>
                         <div class="d-flex mb-4">
                             <a
                                 class="mb-1"
@@ -295,6 +295,9 @@
                                 aria-controls="collapseExample"
                             >Make a Review</a>
                         </div>
+                        <br>
+                        <h4>Customer reviews</h4>
+                        <br>
                         <div class="row justify-content-center">
                             <div class="review-block w-75">
                                 <div class="row mb-4">

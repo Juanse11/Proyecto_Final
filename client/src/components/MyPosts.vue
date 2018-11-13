@@ -71,7 +71,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr @click="getOffers(post._id)" v-for="(post, index) in posts"  :key="post._id" class="table-row">
+                                            <tr @click="getOffers(post._id, index)" v-for="(post, index) in posts"  :key="post._id" class="table-row">
                                                 <th scope="row">{{index}}</th>
                                                 <td>{{post.title}}</td>
                                                 <td>{{post.fee}}</td>    
@@ -96,7 +96,7 @@
                                                 <th scope="col">Customer</th>
                                                 <th scope="col">Fee</th>
                                                 <th scope="col">Status</th>
-                                                <th v-show="showAccept" scope="col">Accept/Reject</th>
+                                                <th scope="col">Accept/Reject</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -107,18 +107,26 @@
                                                     <td>{{offer.offer}}</td>                                               
                                                     <td>{{offer.status}}</td>                                              
                                                     <td v-show="offer.status === 'Pending'"><div class="btn-group justify-content-center">
-                                                        <button class="btn btn-sm btn-outline-secondary">
+                                                        <button class="btn btn-sm btn-outline-secondary" @click="acceptOffer(offer._id, offer.customerID, index, false)">
                                                             <i class="fas fa-shopping-cart"></i>Reject
                                                         </button>
                                                         <button
                                                             type="button"
                                                             class="btn btn-sm btn-secondary"
-                                                            @click="acceptOffer(offer._id)"
+                                                            @click="acceptOffer(offer._id, offer.customerID, index, true)"
                                                         >Accept</button>
                                                     </div></td>                                              
                                                 </tr>
+                                                
                                         </tbody>
+                                        
                                     </table>
+                                    <div v-if="!activePost" class="col-12 mt-5 p-0">
+                                        <h3 class="text-center text-muted">Select a post above to check your offers</h3>
+                                    </div>
+                                    <div v-if="offers.length<1 && activePost" class="col-12 mt-5 pl-2">
+                                        <h3 class="text-center text-muted">No offers available</h3>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -133,13 +141,21 @@
 <script>
 import PostService from '@/services/PostService'
 import OrderService from '@/services/OrderService'
+import AuthenticationService from '@/services/AuthenticationService'
 export default {
 	data () {
 		return {
+			activePost: '',
 			postID: '',
 			userID: this.$store.state.user,
 			posts: [],
-			offers: []
+			offers: [],
+			notification: {
+				fromUserID: this.$store.state.user,
+				message: '',
+				notifType: '',
+				postTitle: ''
+			}
 		}
 	},
 	methods: {
@@ -151,10 +167,11 @@ export default {
 				this.error = error.response.data.error
 			}
 		},
-		async getOffers (postID) {
+		async getOffers (postID, index) {
 			try {
 				const response = await OrderService.getByPost(postID)
 				this.offers = response.data.orders
+				this.activePost = this.posts[index]
 			} catch (error) {
 				this.error = error.response.data.error
 			}
@@ -165,14 +182,24 @@ export default {
 				this.$router.replace({ name: 'login' })
 			} catch (error) {}
 		},
-		setActive (postID) {
-			this.active = postID
-		},
-		async acceptOffer (offerID) {
+		async acceptOffer (offerID, toUserID, index, isAccepted) {
 			try {
-				await OrderService.updateStatus(offerID, { status: 'Offer accepted' })
+				if (isAccepted) {
+					this.offers[index].status = 'Offer accepted'
+					this.notification.message = 'has accepted your offer'
+					this.notification.notifType = 'offerAccepted'
+					await OrderService.updateStatus(offerID, { status: 'Offer accepted' })
+				} else {
+					this.offers[index].status = 'Offer rejected'
+					this.notification.message = 'has rejected your offer'
+					this.notification.notifType = 'offerRejected'
+					await OrderService.updateStatus(offerID, { status: 'Offer rejected' })
+				}
+				this.notification.postTitle = this.activePost.title
+				this.notification.dateCreated = Date.now()
+				await AuthenticationService.addNotification(this.notification, toUserID)
 			} catch (error) {
-				console.log('asdasdasd')
+				console.log('error')
 			}
 		}
 	},

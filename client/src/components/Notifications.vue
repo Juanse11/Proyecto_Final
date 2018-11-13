@@ -37,7 +37,7 @@
                             </li>
                             <li class="nav-item">
                                 <router-link :to="{name: 'notifications'}" class="active nav-link">
-                                    <font-awesome-icon icon="bell" /> Notifications
+                                   <font-awesome-icon icon="bell" /> Notifications <span class="badge badge-light border">{{user.notifications.length}}</span>
                                 </router-link>
                             </li>
                             <li class="nav-item">
@@ -73,8 +73,11 @@
                                         <p
                                             class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"
                                         >
-                                            <strong class="d-block text-gray-dark">Juan Estrada</strong>
-                                            Juan Estrada {{notification.message}} Congratulations!
+                                            
+                                                <strong class="d-block text-gray-dark">Juan Estrada</strong> <strong class="text-gray-dark float-right">{{new Date(notification.dateCreated).toLocaleString() }}</strong>
+                                            
+                                            
+                                            Juan Estrada {{notification.message}} on your post <strong class="text-gray-dark">{{notification.postTitle}}</strong>
                                         </p>
                                     </div>
                                     
