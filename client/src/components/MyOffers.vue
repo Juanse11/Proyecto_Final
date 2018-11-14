@@ -31,8 +31,13 @@
                                 </router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link :to="{name: 'myposts'}" class="active nav-link">
+                                <router-link :to="{name: 'myposts'}" class="nav-link">
                                     <font-awesome-icon icon="file-alt" /> My Posts
+                                </router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link :to="{name: 'myoffers'}" class="active nav-link">
+                                    <font-awesome-icon icon="money-bill-alt" /> My Offers
                                 </router-link>
                             </li>
                             <li class="nav-item">

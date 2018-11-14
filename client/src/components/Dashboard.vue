@@ -43,6 +43,11 @@
                                 </router-link>
                             </li>
                             <li class="nav-item">
+                                <router-link :to="{name: 'myoffers'}" class="nav-link">
+                                    <font-awesome-icon icon="money-bill-alt" /> My Offers
+                                </router-link>
+                            </li>
+                            <li class="nav-item">
                                 <router-link :to="{name: 'profile'}" class="nav-link">
                                     <font-awesome-icon icon="address-card" /> Profile
                                 </router-link>

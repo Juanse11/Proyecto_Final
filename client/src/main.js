@@ -9,10 +9,10 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import BootstrapVue from 'bootstrap-vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faListAlt, faAddressCard, faArrowAltCircleDown, faArrowAltCircleUp, faCalendarAlt, faBell, faComments, faFileAlt, faSignOutAlt, faStar, faCreditCard } from '@fortawesome/free-solid-svg-icons'
+import { faListAlt, faAddressCard, faArrowAltCircleDown, faArrowAltCircleUp, faCalendarAlt, faBell, faComments, faFileAlt, faSignOutAlt, faStar, faCreditCard, faMoneyBillAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faListAlt, faAddressCard, faArrowAltCircleDown, faArrowAltCircleUp, faCalendarAlt, faBell, faComments, faFileAlt, faSignOutAlt, faStar, faCreditCard)
+library.add(faListAlt, faAddressCard, faArrowAltCircleDown, faArrowAltCircleUp, faCalendarAlt, faBell, faComments, faFileAlt, faSignOutAlt, faStar, faCreditCard, faMoneyBillAlt)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

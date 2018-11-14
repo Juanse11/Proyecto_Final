@@ -24,6 +24,11 @@
                                 </router-link>
                             </li>
                             <li class="nav-item">
+                                <router-link :to="{name: 'myoffers'}" class="nav-link">
+                                    <font-awesome-icon icon="money-bill-alt" /> My Offers
+                                </router-link>
+                            </li>
+                            <li class="nav-item">
                                 <router-link :to="{name: 'notifications'}" class="nav-link">
                                     <font-awesome-icon icon="bell" /> Notifications
                                 </router-link>
