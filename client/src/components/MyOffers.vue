@@ -31,13 +31,13 @@
                                 </router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link :to="{name: 'myposts'}" class="nav-link">
+                                <router-link :to="{name: 'myposts'}" class="active nav-link">
                                     <font-awesome-icon icon="file-alt" /> My Posts
                                 </router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link :to="{name: 'notifications'}" class="active nav-link">
-                                   <font-awesome-icon icon="bell" /> Notifications <span class="badge badge-light border">{{user.notifications.length}}</span>
+                                <router-link :to="{name: 'notifications'}" class="nav-link">
+                                    <font-awesome-icon icon="bell" /> Notifications
                                 </router-link>
                             </li>
                             <li class="nav-item">
@@ -58,40 +58,48 @@
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
                     
                     <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="my-3 p-3 bg-white rounded shadow-sm">
-                                    <h4
-                                        class="border-bottom border-gray pb-2 mb-0"
-                                    >Recent Notifications</h4>
-                                    <div v-for="notification in user.notifications" :key="notification._id" class="media text-muted pt-3">
-                                        <img
-                                            src="http://dummyimage.com/60x60/666/ffffff&text=No+Image"
-                                            alt=""
-                                            class="mr-2 rounded"
-                                        >
-                                        <p
-                                            class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"
-                                        >
+                        <div class="row mx-5">
+                            <div class="col-12 mt-4">
+                                <h2>My Offers</h2>
+                                <br>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Post Title</th>
+                                            <th scope="col">Fee</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Accept/Reject</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                            <tr  v-for="(offer, index) in offers"  :key="offer._id" class="table-row">
+                                                <th scope="row">{{index}}</th>
+                                                <td>{{offer.postTitle}}</td>                                               
+                                                <td>{{offer.offer}}</td>                                               
+                                                <td>{{offer.status}}</td>                                              
+                                                <td v-show="offer.status === 'Work in progress'"><div class="btn-group justify-content-center">
+                                                    <button class="btn btn-sm btn-outline-secondary" @click="payment(offer._id, offer.customerID, index, false)">
+                                                        <i class="fas fa-shopping-cart"></i>Cancel
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-sm btn-secondary"
+                                                        @click="payment(offer._id, offer.workerID, index, true)"
+                                                    >Done</button>
+                                                </div></td>                                              
+                                            </tr>
                                             
-                                                <strong class="d-block text-gray-dark">Juan Estrada</strong> <strong class="text-gray-dark float-right">{{new Date(notification.dateCreated).toLocaleString() }}</strong>
-                                            
-                                            
-                                            {{notification.fromUserName}} {{notification.message}} on your post <strong class="text-gray-dark">{{notification.postTitle}}</strong>
-                                        </p>
-                                    </div>
+                                    </tbody>
                                     
-                                    
-                                    <small class="d-block text-right mt-3">
-                                        <a href="#">All updates</a>
-                                    </small>
+                                </table>
+                                <div v-if="offers.length<1" class="col-12 mt-5 pl-2">
+                                    <h3 class="text-center text-muted">No offers available</h3>
                                 </div>
                             </div>
-                            <!-- col // -->
-                            <!-- col // -->
                         </div>
                     </div>
-                    
                     <!-- row.// -->
                 </main>
             </div>
@@ -100,46 +108,75 @@
 </template>
 
 <script>
+import PostService from '@/services/PostService'
+import OrderService from '@/services/OrderService'
 import AuthenticationService from '@/services/AuthenticationService'
 export default {
 	data () {
 		return {
 			userID: this.$store.state.user,
-			user: {
-				email: '',
-				notifications: []
+			offers: [],
+			notification: {
+				fromUserID: this.$store.state.user,
+				message: '',
+				notifType: '',
+				postTitle: ''
 			}
 		}
 	},
 	methods: {
+		async getPosts () {
+			try {
+				const response = await PostService.getByQuery(this.userID)
+				this.posts = response.data.posts
+			} catch (error) {
+				this.error = error.response.data.error
+			}
+		},
+		async getOffers (postID, index) {
+			try {
+				const response = await OrderService.getByCustomer(this.userID)
+
+				this.offers = response.data.orders
+			} catch (error) {
+				this.error = error.response.data.error
+			}
+		},
 		async logOut () {
 			try {
 				this.$store.dispatch('logOut', null)
 				this.$router.replace({ name: 'login' })
-			} catch (error) {
-
-			}
+			} catch (error) {}
 		},
-		async getNotifications () {
+		async payment (offerID, toUserID, index, isPayment) {
 			try {
-				const response = await AuthenticationService.getUser(this.userID)
-				this.user = response.data.user
+				if (isPayment) {
+					this.offers[index].status = 'Completed'
+					this.notification.message = 'has confirmed the completion of the job'
+					this.notification.notifType = 'completed'
+					await OrderService.updateStatus(offerID, { status: 'Completed' })
+				} else {
+					this.offers[index].status = 'Canceled'
+					this.notification.message = 'has canceled the job'
+					this.notification.notifType = 'canceled'
+					await OrderService.updateStatus(offerID, { status: 'Canceled' })
+				}
+				this.notification.postTitle = this.offers[index].postTitle
+				this.notification.dateCreated = Date.now()
+				await AuthenticationService.addNotification(this.notification, toUserID)
 			} catch (error) {
-				this.error = error.response.data.error
+				console.log('error')
 			}
 		}
 	},
 	mounted () {
-		this.getNotifications()
+		this.getOffers()
 	}
 }
 </script>
 
 <style type="text/css">
 /* Some basic formatting */
-.media.text-muted.pt-3 {
-    font-size: 1rem;
-}
 
 body {
   font-size: 0.875rem;
@@ -150,7 +187,9 @@ body {
   height: 16px;
   vertical-align: text-bottom;
 }
-
+.table-row{
+cursor:pointer;
+}
 /*
  * Sidebar
  */

@@ -56,103 +56,75 @@
                     </div>
                 </nav>
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                    <h1>Profile</h1>
                     <div class="container">
-                        <div
-                            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-                        >
-                            <h1>Profile</h1>
-                            <div class="btn-toolbar mb-2 mb-md-0">
-                                <label class="mt-1 mr-2">Sort by:</label>
-                                <button
-                                    class="bg-light btn btn-outline-secondary dropdown-toggle"
-                                    type="button"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                >
-                                    <arrow-up-right-icon class="custom-class"></arrow-up-right-icon>Price: Low to High
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a
-                                        class="active dropdown-item btn btn-outline-secondary"
-                                        href="#"
-                                    >
-                                        <arrow-up-right-icon class="custom-class"></arrow-up-right-icon>Price: Low to High
-                                    </a>
-                                    <a class="dropdown-item btn btn-outline-secondary" href="#">
-                                        <arrow-up-right-icon class="custom-class"></arrow-up-right-icon>Price: Low to High
-                                    </a>
-                                    <a class="dropdown-item btn btn-outline-secondary" href="#">
-                                        <arrow-down-right-icon class="custom-class"></arrow-down-right-icon>Price: High to Low
-                                    </a>
+                        <div class="row mt-3">
+                        <div class="col-6">
+                            <form>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="FName">First Name</label>
+                                            <input type="text" id="FName" class="form-control" placeholder="First name">
+                                        </div>
+                                        <div class="col">
+                                            <label for="LName" Last name="">Last Name</label>
+                                            <input type="text" id="LName" class="form-control" placeholder="Last name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="refImage">Profile Picture</label>
+                                    <input type="file" class="form-control-file" id="refImage">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleFormControlInput1">Gender</label>
+                                    <input type="name" class="form-control" id="gender">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleFormControlInput1">Date of Birth</label>
+                                    <input type="name" class="form-control" id="gender" placeholder="DD/MM/YYYY">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleFormControlInput1">Address 1</label>
+                                    <input type="name" class="form-control" id="address1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleFormControlInput1">Address 2
+                                        <small class="text-muted">Optional</small>
+                                    </label>
+                                    <input type="name" class="form-control" id="address2">
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-sm">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-6">
+                            <h3>Payment Method</h3>
+                            <div class="card" style="width: 30em;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <font-awesome-icon icon="credit-card" class="custom-class" style="font-size: 9em"/>
+                                        </div>
+                                        <div class="col-sm-7 align-self-center">
+                                            <h5 class="card-title">Credit Card</h5>
+                                            <h6 class="card-subtitle mb-2 text-muted">MasterCard</h6>
+                                            <p class="card-text">1234 **** **** *****</p>
+                                            <h6 class="card-subtitle mb-2 text-muted">12/21</h6>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>   
+                            
+                                
+                            
+                            <!-- col // -->
+                            <!-- col // -->
                         </div>
-                        <div class="container">
-                            <div class="row mt-3">
-                                
-                                    <form>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <label for="FName">First Name</label>
-                                                    <input
-                                                        type="text"
-                                                        id="FName"
-                                                        class="form-control"
-                                                        placeholder="First name"
-                                                    >
-                                                </div>
-                                                <div class="col">
-                                                    <label for="LName" Last name="">Last Name</label>
-                                                    <input
-                                                        type="text"
-                                                        id="LName"
-                                                        class="form-control"
-                                                        placeholder="Last name"
-                                                    >
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="refImage">Profile Picture</label>
-                                            <input type="file" class="form-control-file" id="refImage">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlInput1">Gender</label>
-                                            <input type="name" class="form-control" id="gender">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlInput1">Date of Birth</label>
-                                            <input
-                                                type="name"
-                                                class="form-control"
-                                                id="gender"
-                                                placeholder="DD/MM/YYYY"
-                                            >
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlInput1">Address 1</label>
-                                            <input type="name" class="form-control" id="address1">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlInput1">Address 2
-                                                <small class="text-muted">Optional</small>
-                                            </label>
-                                            <input type="name" class="form-control" id="address2">
-                                        </div>
-                                        <div>
-                                        <button type="button" class="btn btn-primary btn-sm">Submit</button>
-                                        </div>
-                                    </form>
-                                
-                                    
-                                
-                                <!-- col // -->
-                                <!-- col // -->
-                            </div>
-                        </div>
-                    </div>
+                    </div>                    
                     <!-- row.// -->
                 </main>
             </div>
@@ -165,6 +137,16 @@ export default {
 
 	data () {
 		return {}
+	},
+	methods: {
+		async logOut () {
+			try {
+				this.$store.dispatch('logOut', null)
+				this.$router.replace({ name: 'login' })
+			} catch (error) {
+
+			}
+		}
 	}
 }
 </script>

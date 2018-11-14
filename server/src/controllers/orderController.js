@@ -1,8 +1,13 @@
 const Order = require('../models/orderModel')
+const User = require('../models/userModel')
 
 module.exports = {
   async  create (req, res) {
     try {
+      console.log(req.body, 'order creation')
+      const response = await User.findById(req.body.customerID)
+      req.body.fromCustomerName = `${response.firstName} ${response.lastName}`
+
       const order = await Order.create(req.body)
       res.send({
         order: order.toJSON()
@@ -15,7 +20,6 @@ module.exports = {
   },
   async  get (req, res) {
     try {
-      console.log(req.query, 'query order')
       const orders = await Order.find(req.query)
       res.send({
         orders: orders

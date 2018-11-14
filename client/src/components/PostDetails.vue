@@ -168,16 +168,16 @@
                                                     <div class="col-sm-2">
                                                         <figure>
                                                             <img
-                                                                src="cocinero.png"
+                                                                src="http://dummyimage.com/60x60/666/ffffff&text=No+Image"
                                                                 alt=""
                                                                 class="rounded-circle"
-                                                                style="width:75px;"
+                                                                style="width:50px;"
                                                                 id="user-img"
                                                             >
                                                         </figure>
                                                     </div>
                                                     <div class="col-sm-10">
-                                                        <dt>{{user.email}}</dt>
+                                                        <dt>{{user.firstName}} {{user.lastName}}</dt>
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -268,6 +268,7 @@
                                                                 <button
                                                                     type="button"
                                                                     @click.prevent="makeOffer"
+                                                                    data-dismiss="modal"
                                                                     class="btn btn-secondary"
                                                                 >Submit offer</button>
                                                             </div>
@@ -298,96 +299,97 @@
                         <br>
                         <h4>Customer reviews</h4>
                         <br>
-                        <div class="row justify-content-center">
-                            <div class="review-block w-75">
-                                <div class="row mb-4">
-                                    <div class="col-12 mt-2">
-                                        <div class="collapse" id="reviewBlock">
-                                            <div class="card card-body">
-                                                <form>
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-8">
-                                                            <label for="inputPassword4">Title</label>
-                                                            <input
-                                                                type="text"
-                                                                class="form-control"
-                                                                id="inputPassword4"
-                                                                placeholder="Title"
-                                                                v-model="review.title"
+                            <div v-if="showReviews && post.reviews.length<1"  class="row justify-content-center">
+                                <div class="review-block w-75">
+                                    <div class="row mb-4">
+                                        <div class="col-12 mt-2">
+                                            <div class="collapse" id="reviewBlock">
+                                                <div class="card card-body">
+                                                    <form>
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-8">
+                                                                <label for="inputPassword4">Title</label>
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="inputPassword4"
+                                                                    placeholder="Title"
+                                                                    v-model="review.title"
+                                                                >
+                                                            </div>
+                                                            <div
+                                                                class="form-group col-md-4 border-left-0 pl-5"
                                                             >
+                                                                <label for="inputEmail4">Rating</label>
+                                                                <fa-rating
+                                                                    :glyph="star"
+                                                                    :item-size="20"
+                                                                    inactive-color="#cfcfcf"
+                                                                    active-color="#000"
+                                                                    v-model="rating"
+                                                                    :show-rating="false"
+                                                                ></fa-rating>
+                                                            </div>
                                                         </div>
-                                                        <div
-                                                            class="form-group col-md-4 border-left-0 pl-5"
-                                                        >
-                                                            <label for="inputEmail4">Rating</label>
-                                                            <fa-rating
-                                                                :glyph="star"
-                                                                :item-size="20"
-                                                                inactive-color="#cfcfcf"
-                                                                active-color="#000"
-                                                                v-model="rating"
-                                                                :show-rating="false"
-                                                            ></fa-rating>
+                                                        <div class="form-group">
+                                                            <label for="inputAddress">Description</label>
+                                                            <textarea
+                                                                v-model="review.description"
+                                                                class="form-control"
+                                                                id="exampleFormControlTextarea1"
+                                                                rows="3"
+                                                                placeholder="Description"
+                                                            ></textarea>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="inputAddress">Description</label>
-                                                        <textarea
-                                                            v-model="review.description"
-                                                            class="form-control"
-                                                            id="exampleFormControlTextarea1"
-                                                            rows="3"
-                                                            placeholder="Description"
-                                                        ></textarea>
-                                                    </div>
-                                                    <button
-                                                        @click.prevent="createReview"
-                                                        data-toggle="collapse"
-                                                        href="#reviewBlock"
-                                                        role="button"
-                                                        class="btn btn-outline-secondary"
-                                                    >Submit</button>
-                                                </form>
+                                                        <button
+                                                            @click.prevent="createReview"
+                                                            data-toggle="collapse"
+                                                            href="#reviewBlock"
+                                                            role="button"
+                                                            class="btn btn-outline-secondary"
+                                                        >Submit</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div
-                                    class="row mb-4"
-                                    v-for="review in post.reviews"
-                                    :key="review._id"
-                                >
-                                    <div class="col-sm-3">
-                                            <img
-                                                src="http://dummyimage.com/60x60/666/ffffff&text=No+Image"
-                                                class="rounded-circle ml-5"
-                                            >
-                                            <div class="review-block-name ml-5">
-                                                <a href="#">estradus</a>
-                                            </div>
-                                            <div
-                                                class="review-block-date ml-5"
-                                            >{{new Date(review.dateCreated).toDateString()}}</div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <div class="review-block-rate">
-                                            <fa-rating
-                                                :glyph="star"
-                                                :item-size="20"
-                                                inactive-color="#cfcfcf"
-                                                active-color="#000"
-                                                v-model="review.rating"
-                                                read-only
-                                                :show-rating="false"
-                                            ></fa-rating>
+                                    <div
+                                        class="row mb-4"
+                                        v-for="review in post.reviews"
+                                        :key="review._id"
+                                    >
+                                        <div class="col-sm-3">
+                                                <img
+                                                    src="http://dummyimage.com/60x60/666/ffffff&text=No+Image"
+                                                    class="rounded-circle ml-5"
+                                                >
+                                                <div class="review-block-name ml-5">
+                                                    <a href="#">estradus</a>
+                                                </div>
+                                                <div
+                                                    class="review-block-date ml-5"
+                                                >{{new Date(review.dateCreated).toDateString()}}</div>
                                         </div>
-                                        <div class="review-block-title">{{review.title}}</div>
-                                        <div class="review-block-description">{{review.description}}</div>
+                                        <div class="col-sm-9">
+                                            <div class="review-block-rate">
+                                                <fa-rating
+                                                    :glyph="star"
+                                                    :item-size="20"
+                                                    inactive-color="#cfcfcf"
+                                                    active-color="#000"
+                                                    v-model="review.rating"
+                                                    read-only
+                                                    :show-rating="false"
+                                                ></fa-rating>
+                                            </div>
+                                            <div class="review-block-title">{{review.title}}</div>
+                                            <div class="review-block-description">{{review.description}}</div>
+                                        </div>
+                                        <hr>
                                     </div>
-                                    <hr>
+                                    
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </main>
             </div>
@@ -441,8 +443,8 @@ export default {
 				postID: this.$route.params.id
 			},
 			notification: {
-				customerID: this.$store.state.user,
-				message: 'Has sent you an offer.',
+				fromUserID: this.$store.state.user,
+				message: 'has sent you an offer',
 				notifType: 'offerSent',
 				postTitle: ''
 			},
@@ -469,8 +471,10 @@ export default {
 		async makeOffer () {
 			try {
 				this.offer.workerID = this.post.userID
+				this.offer.postTitle = this.post.title
 				await OrderService.create(this.offer)
-
+				console.log('order creation')
+				this.notification.dateCreated = Date.now()
 				this.notification.postTitle = this.post.title
 				await AuthenticationService.addNotification(this.notification, this.post.userID)
 			} catch (error) {

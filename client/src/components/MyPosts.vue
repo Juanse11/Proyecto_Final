@@ -57,81 +57,78 @@
                 </nav>
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
                     <div class="container">
-                        <div class="container">
-                            <div class="row mx-5">
-                                <div class="col-12 mt-4">
-                                    <h3>My Posts</h3>
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Title</th>
-                                                <th scope="col">Fee</th>
-                                                <th scope="col">Details</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr @click="getOffers(post._id, index)" v-for="(post, index) in posts"  :key="post._id" class="table-row">
-                                                <th scope="row">{{index}}</th>
-                                                <td>{{post.title}}</td>
-                                                <td>{{post.fee}}</td>    
-                                                <td>
-                                                    <router-link :to="`/posts/${post._id}`">
-                                                        <button
-                                                            href=""
-                                                            class="btn btn-sm btn-outline-secondary"
-                                                        >View Details</button>
-                                                    </router-link>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-12 mt-4">
-                                    <h3>My Offers</h3>
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Customer</th>
-                                                <th scope="col">Fee</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Accept/Reject</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                                <tr  v-for="(offer, index) in offers"  :key="offer._id" class="table-row">
-                                                    <th scope="row">{{index}}</th>
-                                                    <td>{{offer.customerID}}</td>
-                                                    <td>{{offer.offer}}</td>                                               
-                                                    <td>{{offer.status}}</td>                                              
-                                                    <td v-show="offer.status === 'Pending'"><div class="btn-group justify-content-center">
-                                                        <button class="btn btn-sm btn-outline-secondary" @click="acceptOffer(offer._id, offer.customerID, index, false)">
-                                                            <i class="fas fa-shopping-cart"></i>Reject
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            class="btn btn-sm btn-secondary"
-                                                            @click="acceptOffer(offer._id, offer.customerID, index, true)"
-                                                        >Accept</button>
-                                                    </div></td>                                              
-                                                </tr>
-                                                
-                                        </tbody>
+                        <div class="row mx-5">
+                            <div class="col-12 mt-4">
+                                <h3>My Posts</h3>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Fee</th>
+                                            <th scope="col">Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr @click="getOffers(post._id, index)" v-for="(post, index) in posts"  :key="post._id" class="table-row">
+                                            <th scope="row">{{index}}</th>
+                                            <td>{{post.title}}</td>
+                                            <td>{{post.fee}}</td>    
+                                            <td>
+                                                <router-link :to="`/posts/${post._id}`">
+                                                    <button
+                                                        href=""
+                                                        class="btn btn-sm btn-outline-secondary"
+                                                    >View Details</button>
+                                                </router-link>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <h3>Offers received</h3>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Customer</th>
+                                            <th scope="col">Fee</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Accept/Reject</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                         
-                                    </table>
-                                    <div v-if="!activePost" class="col-12 mt-5 p-0">
-                                        <h3 class="text-center text-muted">Select a post above to check your offers</h3>
-                                    </div>
-                                    <div v-if="offers.length<1 && activePost" class="col-12 mt-5 pl-2">
-                                        <h3 class="text-center text-muted">No offers available</h3>
-                                    </div>
+                                            <tr  v-for="(offer, index) in offers"  :key="offer._id" class="table-row">
+                                                <th scope="row">{{index}}</th>
+                                                <td>{{offer.customerID}}</td>
+                                                <td>{{offer.offer}}</td>                                               
+                                                <td>{{offer.status}}</td>                                              
+                                                <td v-show="offer.status === 'Pending'"><div class="btn-group justify-content-center">
+                                                    <button class="btn btn-sm btn-outline-secondary" @click="acceptOffer(offer._id, offer.customerID, index, false)">
+                                                        <i class="fas fa-shopping-cart"></i>Reject
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-sm btn-secondary"
+                                                        @click="acceptOffer(offer._id, offer.customerID, index, true)"
+                                                    >Accept</button>
+                                                </div></td>                                              
+                                            </tr>
+                                            
+                                    </tbody>
+                                    
+                                </table>
+                                <div v-if="!activePost" class="col-12 mt-5 p-0">
+                                    <h3 class="text-center text-muted">Select a post above to check your offers</h3>
+                                </div>
+                                <div v-if="offers.length<1 && activePost" class="col-12 mt-5 pl-2">
+                                    <h3 class="text-center text-muted">No offers available</h3>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- row.// -->
                 </main>
             </div>
         </div>
@@ -169,7 +166,9 @@ export default {
 		},
 		async getOffers (postID, index) {
 			try {
+				console.log('123s')
 				const response = await OrderService.getByPost(postID)
+				console.log(response)
 				this.offers = response.data.orders
 				this.activePost = this.posts[index]
 			} catch (error) {
@@ -185,10 +184,10 @@ export default {
 		async acceptOffer (offerID, toUserID, index, isAccepted) {
 			try {
 				if (isAccepted) {
-					this.offers[index].status = 'Offer accepted'
+					this.offers[index].status = 'Work in progress'
 					this.notification.message = 'has accepted your offer'
 					this.notification.notifType = 'offerAccepted'
-					await OrderService.updateStatus(offerID, { status: 'Offer accepted' })
+					await OrderService.updateStatus(offerID, { status: 'Work in progress' })
 				} else {
 					this.offers[index].status = 'Offer rejected'
 					this.notification.message = 'has rejected your offer'

@@ -1,6 +1,6 @@
 <template>
   <form class="form-signin">
-		<h1 class="h3 mb-3 font-weight-normal">Register</h1>
+		<h1 class="h3 mb-3 font-weight-normal text-center">Register</h1>
 		<label for="inputEmail" class="sr-only">Email address</label>
 		<input type="email" v-model="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
 		<label for="inputPassword" class="sr-only">Password</label>
@@ -10,7 +10,7 @@
 				<input type="checkbox" value="remember-me"> Remember me
 			</label>
 		</div>
-		<button class="btn btn-lg btn-primary btn-block" @click="register" type="submit">Sign up</button>
+		<button class="btn btn-lg btn-primary btn-block" @click.prevent="register" type="submit">Sign up</button>
 		<p class="mt-4 mb-3 pl-5 pt-2 border-left-0 border-top-0 text-muted">Have an account already?<router-link :to="{name: 'login'}"> Log in </router-link></p>
   </form>
 </template>
@@ -35,6 +35,7 @@ export default {
 				})
 				this.$store.dispatch('setToken', response.data.token)
 				this.$store.dispatch('setUser', response.data.user)
+				this.$router.replace({ name: 'dashboard' })
 			} catch (error) {
 				this.error = error.response.data.error
 			}

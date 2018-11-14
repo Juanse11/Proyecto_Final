@@ -5,6 +5,8 @@ const orderSchema = new Schema(
     customerID: { type: Schema.Types.ObjectId },
     workerID: { type: Schema.Types.ObjectId },
     postID: { type: Schema.Types.ObjectId },
+    postTitle: { type: String },
+    fromCustomerName: { type: String },
     offer: { type: Number },
     status: { type: String, default: 'Pending' },
     dateCreated: { type: Date, default: Date.now }

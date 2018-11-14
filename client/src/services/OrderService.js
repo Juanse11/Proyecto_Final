@@ -10,6 +10,9 @@ export default {
 	getByPost (postID) {
 		return Api().get(`orders?postID=${postID}`)
 	},
+	getByCustomer (customerID) {
+		return Api().get(`orders?customerID=${customerID}`)
+	},
 	updateStatus (orderID, status) {
 		return Api().put(`orders/${orderID}`, status)
 	}

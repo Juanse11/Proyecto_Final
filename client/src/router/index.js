@@ -8,6 +8,7 @@ import PostDetails from '@/components/PostDetails'
 import Profile from '@/components/Profile'
 import MyPosts from '@/components/MyPosts'
 import Notifications from '@/components/Notifications'
+import MyOffers from '@/components/MyOffers'
 import store from '@/store/store'
 
 Vue.use(Router)
@@ -71,6 +72,12 @@ export default new Router({
 			path: '/notifications',
 			name: 'notifications',
 			component: Notifications,
+			beforeEnter: ifAuthenticated
+		},
+		{
+			path: '/myoffers',
+			name: 'myoffers',
+			component: MyOffers,
 			beforeEnter: ifAuthenticated
 		},
 		{

@@ -25,8 +25,11 @@ module.exports = {
       })
     }
   },
-  addNotification (req, res) {
-    User.findById({ _id: req.params.id }, function (_err, result) {
+   addNotification (req, res) {
+    
+    User.findById({ _id: req.params.id }, async function (_err, result) {
+      const response = await User.findById(req.body.fromUserID)
+      req.body.fromUserName = `${response.firstName} ${response.lastName}`
       result.notifications.push(req.body)
       result.save().then(function (_err, response) {
         res.send({ message: 'updated notifications' })

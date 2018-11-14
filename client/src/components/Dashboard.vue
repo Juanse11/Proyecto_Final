@@ -123,7 +123,7 @@
                                                 </router-link>
                                                 
                                                 <div class="price-wrap h5">
-                                                    <span class="price-new">${{post.fee}}</span>
+                                                    <span class="price-new">${{post.fee}}<span>/per hr</span></span>
                                                 </div>
                                                 <p class="card-text"><small class="text-muted">{{new Date(post.dateCreated).toDateString()}}</small></p>
                                                 <!-- price-wrap.// -->
