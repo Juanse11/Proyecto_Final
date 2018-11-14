@@ -181,7 +181,7 @@
                                                             >
                                                         </figure>
                                                     </div>
-                                                    <div class="col-sm-10">
+                                                    <div class="col-sm-10  p-0 mt-2">
                                                         <dt>{{user.firstName}} {{user.lastName}}</dt>
                                                     </div>
                                                 </div>
@@ -477,8 +477,8 @@ export default {
 				this.offer.workerID = this.post.userID
 				this.offer.postTitle = this.post.title
 				await OrderService.create(this.offer)
-                console.log('order creation')
-                this.notification.dateCreated = Date.now()
+				console.log('order creation')
+				this.notification.dateCreated = Date.now()
 				this.notification.postTitle = this.post.title
 				await AuthenticationService.addNotification(this.notification, this.post.userID)
 			} catch (error) {
@@ -490,6 +490,7 @@ export default {
 				this.review.rating = this.rating
 				this.review.dateCreated = Date.now()
 				this.post.reviews.push(this.review)
+				this.post.rating = this.post.rating = ((this.post.reviews.length - 1) * this.post.rating + this.post.reviews[this.post.reviews.length - 1].rating) / this.post.reviews.length
 				await ReviewService.create(this.review)
 			} catch (error) {}
 		}
